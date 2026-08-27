@@ -1,0 +1,26 @@
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+env/
+ENV/
+
+# Local tooling and notebook-generated metadata
+.vscode/
+.ipynb_checkpoints/
+implementation/.labelstudio_data/
+
+# Large packet captures and datasets generated or consumed by the pipeline
+implementation/*.pcap
+implementation/syn_flood.csv
+implementation/syn_udp_flood_attack_data.csv
+implementation/syn_udp_flood_attack_data_clean.csv
+implementation/syn_udp_flood_attack_data_labeled.csv
+
+# Generated preprocessing, labeling, and model result reports
+implementation/clean_dataset_report.json
+implementation/fuzzy_dt_results.json
+implementation/normal_dt_results.json
+implementation/syn_udp_flood_attack_data_label_report*.json
