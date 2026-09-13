@@ -1,0 +1,63 @@
+{
+  "rows_total": 194792,
+  "time_min": 0.0,
+  "time_max": 2283.2534663,
+  "attack_rows": 29115,
+  "normal_rows": 165677,
+  "attack_ratio": 0.14946712390652594,
+  "scenario_counts": {
+    "outside_logged_window": 165627,
+    "Standard SYN Flood": 20744,
+    "Standard UDP Flood": 8371,
+    "Normal/Silence": 50
+  },
+  "rows_per_interval": [
+    {
+      "scenario": "Standard SYN Flood",
+      "label": 1,
+      "start_rel": 2018.016563,
+      "end_rel": 2039.197845,
+      "duration": 21.181282,
+      "rows": 20744
+    },
+    {
+      "scenario": "Normal/Silence",
+      "label": 0,
+      "start_rel": 2039.197845,
+      "end_rel": 2049.2,
+      "duration": 10.002155,
+      "rows": 50
+    },
+    {
+      "scenario": "Standard UDP Flood",
+      "label": 1,
+      "start_rel": 2049.2,
+      "end_rel": 2069.2,
+      "duration": 20.0,
+      "rows": 8371
+    }
+  ],
+  "alignment_mode": "auto_offset_single_cycle",
+  "alignment_meta": {
+    "selected_cycle_index": 0,
+    "best_offset_seconds": 2018.0165631286857,
+    "offset_search_step": 0.1,
+    "diagnostics": {
+      "0": {
+        "best_objective": 693.9537019563713,
+        "best_score": 693.9537019563713,
+        "best_offset": 2018.0165631286857,
+        "best_counts": [
+          20744,
+          50,
+          8371
+        ],
+        "best_rates": [
+          979.3552,
+          4.9989,
+          418.55
+        ]
+      }
+    }
+  }
+}

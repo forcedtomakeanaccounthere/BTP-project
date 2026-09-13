@@ -1,0 +1,24 @@
+{
+  "input_csv": "syn_udp_flood_attack_data_labeled.csv",
+  "output_csv": "syn_udp_flood_attack_data_clean.csv",
+  "rows_total": 194792,
+  "attack_rows": 28943,
+  "normal_rows": 165849,
+  "attack_ratio": 0.14858413076512383,
+  "split_counts": {
+    "train": 155833,
+    "test": 38959
+  },
+  "split_attack_ratio": {
+    "test": 0.14859210965373854,
+    "train": 0.148582136004569
+  },
+  "scenario_counts": {
+    "outside_logged_window": 165799,
+    "Standard SYN Flood": 20572,
+    "Standard UDP Flood": 8371,
+    "Normal/Silence": 50
+  },
+  "window": 50,
+  "random_state": 42
+}

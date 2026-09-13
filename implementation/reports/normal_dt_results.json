@@ -1,0 +1,46 @@
+{
+  "model_type": "Normal_DT",
+  "best_params": {
+    "class_weight": "balanced",
+    "max_depth": 18,
+    "min_samples_leaf": 2,
+    "min_samples_split": 10
+  },
+  "feature_count": 17,
+  "threshold": 0.6599999999999999,
+  "metrics": {
+    "accuracy": 0.7794091224107395,
+    "balanced_accuracy": 0.6731055743709038,
+    "precision": 0.34147168531705663,
+    "recall": 0.5218517878735532,
+    "f1": 0.41281770975676413,
+    "auc": 0.78333375082211
+  },
+  "classification_report": {
+    "Normal": {
+      "precision": 0.90807651434644,
+      "recall": 0.8243593608682545,
+      "f1-score": 0.864195189785405,
+      "support": 33170.0
+    },
+    "Attack": {
+      "precision": 0.34147168531705663,
+      "recall": 0.5218517878735532,
+      "f1-score": 0.41281770975676413,
+      "support": 5789.0
+    },
+    "accuracy": 0.7794091224107395,
+    "macro avg": {
+      "precision": 0.6247740998317484,
+      "recall": 0.6731055743709038,
+      "f1-score": 0.6385064497710846,
+      "support": 38959.0
+    },
+    "weighted avg": {
+      "precision": 0.8238835074609681,
+      "recall": 0.7794091224107395,
+      "f1-score": 0.7971240577777611,
+      "support": 38959.0
+    }
+  }
+}
