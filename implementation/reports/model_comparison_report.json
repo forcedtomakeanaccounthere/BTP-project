@@ -1,0 +1,39 @@
+{
+  "models": [
+    {
+      "model": "normal_dt",
+      "accuracy_%": 77.94,
+      "AUC": 0.7833,
+      "recall_%": 52.19,
+      "F1": 0.4128
+    },
+    {
+      "model": "deep_mlp",
+      "accuracy_%": 80.47,
+      "AUC": 0.7883,
+      "recall_%": 41.16,
+      "F1": 0.3852
+    },
+    {
+      "model": "fuzzy_forest",
+      "accuracy_%": 81.73,
+      "AUC": 0.7973,
+      "recall_%": 40.82,
+      "F1": 0.3991
+    }
+  ],
+  "latency_ms_per_packet": {
+    "fuzzy_forest": 0.0127,
+    "deep_mlp": 0.0044,
+    "normal_dt": 0.0015
+  },
+  "model_sizes": {
+    "fuzzy_forest": "2.91 MB (30 trees)",
+    "deep_mlp": "1135.1 KB",
+    "normal_dt": "45.0 KB (unpruned)"
+  },
+  "fuzzy_dt_single": {
+    "accuracy_%": 82.63,
+    "size_kb": 143.3
+  }
+}
