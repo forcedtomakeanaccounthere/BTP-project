@@ -1,0 +1,41 @@
+{
+  "model_type": "Deep_MLP",
+  "architecture": "(256,128,64,32)",
+  "feature_count": 17,
+  "threshold": 0.52,
+  "metrics": {
+    "accuracy": 0.8047177802304988,
+    "balanced_accuracy": 0.7883135283080565,
+    "precision": 0.3618830675778284,
+    "recall": 0.4116427707721541,
+    "f1": 0.3851624373686763,
+    "auc": 0.7883135283080565
+  },
+  "classification_report": {
+    "Normal": {
+      "precision": 0.8947921171310311,
+      "recall": 0.8733192643955381,
+      "f1-score": 0.8839253020871476,
+      "support": 33170.0
+    },
+    "Attack": {
+      "precision": 0.3618830675778284,
+      "recall": 0.4116427707721541,
+      "f1-score": 0.3851624373686763,
+      "support": 5789.0
+    },
+    "accuracy": 0.8047177802304988,
+    "macro avg": {
+      "precision": 0.6283375923544298,
+      "recall": 0.6424810175838461,
+      "f1-score": 0.634543869727912,
+      "support": 38959.0
+    },
+    "weighted avg": {
+      "precision": 0.815606037204352,
+      "recall": 0.8047177802304988,
+      "f1-score": 0.8098130758016877,
+      "support": 38959.0
+    }
+  }
+}
