@@ -1,4 +1,4 @@
-# Explainable SYN/UDP Flood Detection in IoT Networks
+# Explainable SYN/UDP Flood Detection in IoT Networks using Lightweight Fuzzy Decision Tree
 
 This project detects SYN and UDP flood behavior in IoT network traffic using
 fuzzy membership rules plus supervised tree models. The research workflow is
