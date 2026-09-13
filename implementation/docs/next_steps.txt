@@ -1,0 +1,253 @@
+don't train the whole thing on the Pi yet
+
+This is important.
+
+Your fuzzy implementation does:
+
+GridSearchCV
+       +
+DecisionTree
+       +
+RandomForest
+300 estimators
+
+and the Random Forest uses:
+
+n_estimators=300
+max_depth=12
+n_jobs=-1
+
+according to your actual implementation.
+
+That's not what I'd use the Raspberry Pi for.
+
+Better architecture
+
+Train on your laptop:
+
+Laptop
+   │
+   ├── Dataset
+   ├── preprocessing
+   ├── GridSearch
+   ├── fuzzy model
+   └── model artifact
+            │
+            ▼
+       Raspberry Pi
+            │
+            ├── packet capture
+            ├── feature extraction
+            ├── inference
+            └── firewall blocking
+
+The Pi should primarily perform inference, not expensive training.
+
+There's another issue we need to fix
+
+Your current code doesn't save the model.
+
+For example, after:
+
+forest_model.fit(X_train, y_train)
+
+you calculate predictions and metrics, but you don't have something like:
+
+joblib.dump(forest_model, "fuzzy_forest.pkl")
+
+So after the Python process exits, the trained model disappears.
+
+We'll modify that.
+
+We also need to save:
+
+model
++
+feature order
++
+normalization parameters
++
+fuzzy membership configuration
++
+threshold
+
+because your fuzzy pipeline uses training-derived quantile bounds. Your code calculates these in _normalize_with_train_quantiles().
+
+You must use the same bounds during inference.
+
+Then we'll build the live detector
+
+Something conceptually like:
+
+live_detector.py
+
+It will do:
+
+Network packet
+      ↓
+Capture
+      ↓
+Aggregate packets into window
+      ↓
+Calculate:
+    SYN count
+    ACK count
+    SYN/ACK ratio
+    half-open connections
+    source frequency
+    SYN density
+    retransmission rate
+    destination ports
+    SYN interarrival
+      ↓
+Your fuzzy logic
+      ↓
+Model
+      ↓
+confidence
+      ↓
+threshold
+      ↓
+NORMAL / ATTACK
+
+This is actually compatible with your existing feature engineering.
+
+Your shared_preprocessing.py already calculates many of exactly these features:
+
+syn_ack_ratio
+half_open_conn_count
+same_src_ip_freq
+syn_packet_density
+retransmission_rate
+unique_dst_port_count
+avg_time_between_syns
+
+So we don't need to throw away your research implementation.
+
+Then prevention
+
+Once:
+
+fuzzy_confidence > threshold
+
+we can trigger an isolated lab firewall rule:
+
+ATTACK
+  ↓
+identify source
+  ↓
+firewall
+  ↓
+DROP traffic
+
+For your project demonstration, we'll make this controlled and reversible.
+
+For example:
+
+[10:20:01] SYN packets detected: 8
+[10:20:02] SYN packets detected: 32
+[10:20:03] Fuzzy confidence: 0.81
+[10:20:03] ⚠ ATTACK DETECTED
+[10:20:03] Source: 192.168.137.xxx
+[10:20:03] BLOCKING SOURCE
+
+Then:
+
+[10:20:10] Traffic returned to normal
+[10:20:10] Removing temporary block
+
+We should not immediately block your laptop's IP, because your SSH connection is coming from the laptop. If the Pi blocks the laptop, you could lose your SSH session.
+
+About your current attack simulator
+
+Your existing script does:
+
+TARGET_IP = "10.0.106.27"
+
+and launches hping3 with SYN/UDP flood scenarios.
+
+We should not run that unchanged.
+
+Your current network is:
+
+Laptop hotspot
+      |
+      +---- Laptop: 192.168.137.246
+      |
+      +---- Pi: 192.168.137.211
+
+So your experimental environment is now a nice isolated private lab.
+
+For testing, we'll first use low-rate, bounded traffic against only 192.168.137.211, rather than immediately running the 5,000-packet scenarios in the existing script.
+
+That lets us verify:
+
+Pi receives packets
+packet capture works
+features are calculated
+model produces a score
+detection occurs
+firewall response occurs
+
+in that order.
+
+So our actual implementation plan
+
+I would do this in 5 stages:
+
+Stage 1 — Pi setup
+SSH
+Git
+Python
+venv
+dependencies
+Stage 2 — Move/train model
+Laptop
+ ↓
+train fuzzy model
+ ↓
+save model + preprocessing config
+ ↓
+copy artifacts to Pi
+Stage 3 — Live traffic
+Pi
+ ↓
+tcpdump/packet capture
+ ↓
+feature extraction
+Stage 4 — Live ML detection
+features
+ ↓
+fuzzy logic
+ ↓
+trained model
+ ↓
+confidence
+ ↓
+attack/normal
+Stage 5 — Prevention
+attack detected
+       ↓
+source identification
+       ↓
+temporary firewall block
+       ↓
+log event
+
+Then we'll run a controlled attack simulation and show:
+
+NORMAL TRAFFIC
+      ↓
+ATTACK START
+      ↓
+SYN RATE ↑
+      ↓
+FUZZY SCORE ↑
+      ↓
+ATTACK DETECTED
+      ↓
+SOURCE BLOCKED
+      ↓
+TRAFFIC DROPS
+
+That gives you the actual edge detection + prevention demonstration you're looking for.
